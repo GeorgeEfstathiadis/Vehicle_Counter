@@ -1,0 +1,3 @@
+compile yolo.h5 following the instructions from the repository of Allan Zelener on how to compile the YOLOv2 model using the model weights and cfg files from the official YOLO website.
+YAD2K repo (on how to compile the model): https://github.com/allanzelener/YAD2K
+YOLO website (to download weights and cfg files): http://pjreddie.com/darknet/yolo/
