@@ -32,7 +32,7 @@ When everything is set up and youve started the video capturing process the vehi
 showing up in the bottom. The process will end automatically when the video ends, but 
 if you want to stop earlier for whatever reason press the Stop Capture button.  
   
-**5. Confugure predictive parameters**  
+**5. Configure predictive parameters**  
 ![](https://github.com/GeorgeEfstathiadis/Vehicle_Counter/blob/main/screenshots/5.JPG)  
 
 When the video finishes the number of vehicles captured will show up if you are satisfied 
