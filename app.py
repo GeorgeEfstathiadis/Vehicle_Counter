@@ -1,26 +1,22 @@
 import streamlit as st
+
 import cv2
-import tempfile			
-import matplotlib.pyplot as plt
-import os
-import numpy as np
 from PIL import Image
+import imageio
 
 
-import argparse
-import sys
-import scipy.io
+import tempfile			
+import os
+from time import sleep
+import numpy as np
 import pandas as pd
+
 from keras import backend as K
 from keras.models import load_model
 from yolo_utils import (read_classes, read_anchors, generate_colors, preprocess_image, 
 draw_boxes, yolo_eval)
 from yad2k.yad2k.models.keras_yolo import yolo_head
-import imageio
-from time import sleep
 
-import tempfile
-import shutil
 
 
 def clearDir(path):
@@ -29,17 +25,17 @@ def clearDir(path):
 	    try:
 	        if os.path.isfile(file_path) or os.path.islink(file_path):
 	            os.unlink(file_path)
-	        elif os.path.isdir(file_path):
-	            shutil.rmtree(file_path)
+	        
 	    except Exception as e:
 	        print('Failed to delete %s. Reason: %s' % (file_path, e))
 
 
-def getFirstFrame(videofile):
-	vidcap = cv2.VideoCapture(videofile)
-	success, image = vidcap.read()
-	if success:
-		return image  
+def getMiddleFrame(videofile):
+	vidcap = cv2.VideoCapture(tfile.name)
+	frames_no = int(vidcap.get(cv2.CAP_PROP_FRAME_COUNT)/2)
+	vidcap.set(cv2.CAP_PROP_POS_FRAMES, frames_no)
+	_, frame_middle = vidcap.read()
+	return frame_middle
 
 def lineConfig(img,positionx, ylower=-1, yupper=-1):
     shape_img = img.shape
@@ -89,7 +85,7 @@ def getVehicles(video, positionx,
             kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
             dillated = cv2.morphologyEx (dilat, cv2. MORPH_CLOSE , kernel)
             dillated = cv2.morphologyEx (dillated, cv2. MORPH_CLOSE , kernel)
-            _,contours,h=cv2.findContours(dillated,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+            contours,h=cv2.findContours(dillated,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
             frame3 = frame2.copy()
             cv2.line(frame2, (xlow, positionx), (xhigh, positionx), (255,127,0), 3) 
             for(_,c) in enumerate(contours):
@@ -121,7 +117,7 @@ def getVehicles(video, positionx,
                         y2 = box[2] + 10
                         if y2 > frame.shape[1]:
                             y2 = frame.shape[1]
-                        veh.image(frame3[x1:x2, y1:y2], use_column_width=True)
+                        veh.image(frame3[x1:x2, y1:y2], use_column_width=True, channels ='BGR')
                         cv2.imwrite('output/vehicles/' + "\\frame%d.jpg" % count, frame3[x1:x2, y1:y2])
                         count = count + 1
                         cv2.line(frame2, (xlow, positionx), (xhigh, positionx), (0,127,255), 3) 
@@ -129,8 +125,8 @@ def getVehicles(video, positionx,
                         bounds.pop(i)
 
             cv2.putText(frame2, "Vehicle Count : "+str(cars), (450, 70), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255),5)
-            vid.image(frame2, use_column_width=True)
-            dil.image(dillated, use_column_width=True)
+            vid.image(frame2, use_column_width=True, channels ='BGR')
+            dil.image(dillated, use_column_width=True, channels ='BGR')
 
             if stop_btn:
             	break
@@ -138,7 +134,6 @@ def getVehicles(video, positionx,
 
             break
     cap.release()
-    # shutil.rmtree(dirpath)
 
 
         
@@ -243,7 +238,7 @@ if tab == 'Instructions':
 	st.header('Steps:')
 	st.markdown('**1. Upload mp4 video**')
 	st.image('screenshots/1.jpg', use_column_width=True)
-	st.markdown("After you upload your video it should appear below, along with the first frame.")
+	st.markdown("After you upload your video it should appear below, along with a frame of the video.")
 	st.markdown('**2. Configure line**')
 	st.image('screenshots/2.jpg', use_column_width=True)
 	st.markdown("Now you need to configure the line's position. This line will be used to capture all vehicles passing it. 'y' is the y coordinate of the line and 'x0','x1' are the lower and upper x coordinates of the line respectively.")
@@ -265,7 +260,7 @@ if tab == 'Instructions':
 		showing up in the bottom. The process will end automatically when the video ends, but 
 		if you want to stop earlier for whatever reason press the 'Stop Capture' button.
 		""")
-	st.markdown('**5. Confugure predictive parameters**')
+	st.markdown('**5. Configure predictive parameters**')
 	st.image('screenshots/5.jpg', use_column_width=True)
 	st.markdown("""
 		When the video finishes the number of vehicles captured will show up if you are satisfied 
@@ -287,6 +282,8 @@ if tab == 'Instructions':
 		of each type of vehicle in the video
 		""")
 	st.markdown('For further information visit the original repository for this project: [click here](https://github.com/GeorgeEfstathiadis/Vehicle_Counter)')
+	st.sidebar.info('Select Main to proceed to the app')
+
 elif tab == 'Main':
 	f = st.file_uploader("Upload file", type = ['mp4']) 
 	if f is not None:	
@@ -298,7 +295,7 @@ elif tab == 'Main':
 		st.header('Line Configuration')
 		tfile = tempfile.NamedTemporaryFile(delete=False)
 		tfile.write(f2)
-		frame = getFirstFrame(tfile.name)
+		frame = getMiddleFrame(tfile.name)
 		stframe = st.empty()
 
 		st.sidebar.header('Line Configuration')
