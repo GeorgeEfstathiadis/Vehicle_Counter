@@ -2,7 +2,19 @@
 
  A vehicle counter that accepts a video of a road, counts the vehicles passing by and classifies them using OpenCV and Tensorflow.
 
-# Instruction for use
+# How to run this app
+
+When in your project directory run the following lines in your command prompt.
+
+```
+git clone https://github.com/GeorgeEfstathiadis/Vehicle_Counter.git
+cd  Vehicle_Counter
+pip install -r requirements.txt
+pip install streamlit
+streamlit run app.py
+```
+
+# Instruction for use of streamlit app
 
 **1. Upload mp4 video**  
 
