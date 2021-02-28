@@ -4,6 +4,9 @@
 
 # How to run this app
 
+Python Version: 3.7.9  
+This app will work for Python distributions of 3.5-3.7
+
 When in your project directory run the following lines in your command prompt.
 
 ```
