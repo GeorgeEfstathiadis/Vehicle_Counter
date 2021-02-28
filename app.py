@@ -126,7 +126,7 @@ def getVehicles(video, positionx,
 
             cv2.putText(frame2, "Vehicle Count : "+str(cars), (450, 70), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255),5)
             vid.image(frame2, use_column_width=True, channels ='BGR')
-            dil.image(dillated, use_column_width=True, channels ='BGR')
+            dil.image(dillated, use_column_width=True)
 
             if stop_btn:
             	break
