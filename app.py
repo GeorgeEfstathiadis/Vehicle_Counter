@@ -151,9 +151,14 @@ def transformPredict(lanes, core_threshold):
 
 
     counter = []
+    pro = 0
+    step = 1/len(images)
     for img in images:
         transformImage('output/vehicles/'+img)
         _, _, out_classes = predict(sess, 'output/transformed/'+img[:-4] + '_transformed.jpg', lanes,core_threshold,0.01)
+        pro += step
+        progress_bar.progress(pro)
+        stat.text("{}% Complete".format(pro*100))
         counter.append(out_classes)
         
     return counter
@@ -348,9 +353,14 @@ elif tab == 'Main':
 						yolo_outputs = (yolo_outputs[2],yolo_outputs[0], yolo_outputs[1], yolo_outputs[3])
 
 						veh_class = st.empty()
+						progress_bar = st.progress(0)
+						stat = st.empty()
+                        
 						counter = transformPredict(lanes, core_threshold)
 						final_counter = finaliseCounter(counter)
 
+						progress_bar.empty()
+						veh_class.empty()
 
 						st.header('Results')
 						st.json(final_counter)

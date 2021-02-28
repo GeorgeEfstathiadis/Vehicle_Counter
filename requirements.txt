@@ -70,7 +70,7 @@ Flask==1.1.2
 fsspec @ file:///tmp/build/80754af9/fsspec_1602684995936/work
 funcy==1.15
 future==0.18.2
-gast==0.4.0
+gast==0.2.2
 gensim==3.8.3
 gevent @ file:///C:/ci/gevent_1601397624717/work
 gitdb @ file:///home/conda/feedstock_root/build_artifacts/gitdb_1611836818287/work
@@ -154,12 +154,13 @@ nose @ file:///C:/ci/nose_1594377973236/work
 notebook @ file:///C:/ci/notebook_1601494955742/work
 numba==0.52.0
 numexpr==2.7.1
-numpy @ file:///D:/bld/numpy_1612953208180/work
+numpy==1.18.5
 numpydoc @ file:///tmp/build/80754af9/numpydoc_1605117425582/work
 olefile==0.46
 opencv-contrib-python==4.5.1.48
 opencv-python==4.5.1.48
 openpyxl @ file:///tmp/build/80754af9/openpyxl_1598113097404/work
+opt-einsum==3.3.0
 packaging==20.8
 pandas @ file:///C:/ci/pandas_1602088205210/work
 pandas-profiling==2.10.0
@@ -265,9 +266,9 @@ suod==0.0.6
 sympy @ file:///C:/ci/sympy_1605119633474/work
 tables==3.6.1
 tblib @ file:///tmp/build/80754af9/tblib_1597928476713/work
-tensorboard==1.14.0
-tensorflow==1.14.0
-tensorflow-estimator==1.14.0
+tensorboard==1.15.0
+tensorflow==1.15.5
+tensorflow-estimator==1.15.1
 termcolor==1.1.0
 terminado==0.9.1
 testpath==0.4.4
